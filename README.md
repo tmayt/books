@@ -15,7 +15,7 @@ This project is a Django-based API for managing books, allowing users to view bo
 1. Clone the repository:
 
    ```bash
-   git clone [<your-repo-url>](https://github.com/tmayt/books.git)
+   git clone https://github.com/tmayt/books.git
    cd books
    ```
 
