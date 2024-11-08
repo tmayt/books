@@ -20,7 +20,6 @@ class BookListView(APIView):
                 description="Bad request"
             ),
         },
-        tags=["Books"],
     )
     def get(self, request):
         books = Book.objects.all()
@@ -35,7 +34,6 @@ class BookDetailView(APIView):
             200: BookSerializer,
             404: openapi.Response(description="Book not found")
         },
-        tags=["Books"]
     )
     def get(self, request, pk, *args, **kwargs):
         try:
@@ -92,7 +90,7 @@ class SubmitCommentView(APIView):
         responses={
             201: openapi.Response(description="Comment submitted successfully"),
             200: openapi.Response(description="Comment modified successfully"),
-            400: openapi.Response(description="Either text or rating must be provided or user already commented on this book"),
+            400: openapi.Response(description="Either text or rating must be provided, and each user can comment on a book only once. Rating must be a number between 1 and 5, or left blank"),
             404: openapi.Response(description="Book not found"),
         }
     )
@@ -102,9 +100,14 @@ class SubmitCommentView(APIView):
         text = request.data.get('text')
         rating = request.data.get('rating')
 
-        if text is None and rating is None:
+        if (text is None and rating is None):
             return Response(
                 {"error": "Either text or rating must be provided"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if (int(rating) in range(1, 6)):
+            return Response(
+                {"error": "Rating must be a number between 1 and 5, or left blank"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
