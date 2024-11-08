@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from rest_framework.test import APITestCase, APIClient
+from rest_framework import status
 from .models import Book, Bookmark, Comment
 from django.db.utils import IntegrityError
 
@@ -135,3 +137,113 @@ class CommentModelTest(TestCase):
         comment.delete()
         with self.assertRaises(Comment.DoesNotExist):
             Comment.objects.get(id=comment_id)
+
+
+class BookAPITestCase(APITestCase):
+    def setUp(self):
+        
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.client = APIClient()
+        response = self.client.post('/auth/token/', {'username': 'testuser', 'password': 'testpass'})
+        self.token = response.data['access']
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        
+        self.book = Book.objects.create(
+            title="Test Book",
+            author="Author Name",
+            description="Test description",
+            published_date="2024-01-01"
+        )
+
+    def test_get_list_book(self):
+        """Test retrieving a list of book"""
+        self.test_bookmark_book()
+
+        url = f'/books/list/'
+        response = self.client.get(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['author'], self.book.author)
+        self.assertEqual(response.data[0]['is_bookmarked'], True)
+
+    def test_get_single_book(self):
+        """Test retrieving a single book by its ID"""
+        url = f'/books/{self.book.id}/'
+        response = self.client.get(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['title'], self.book.title)
+        self.assertEqual(response.data['author'], self.book.author)
+
+    def test_bookmark_book(self):
+        """Test bookmarking a book"""
+        url = f'/books/bookmark/{self.book.id}/'
+        response = self.client.post(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+        bookmark_exists = Bookmark.objects.filter(user=self.user, book=self.book).exists()
+        self.assertTrue(bookmark_exists)
+
+    def test_remove_bookmark(self):
+        """Test removing a bookmark from a book"""
+        Bookmark.objects.create(user=self.user, book=self.book)
+        
+        url = f'/books/bookmark/{self.book.id}/'
+        response = self.client.delete(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        
+        bookmark_exists = Bookmark.objects.filter(user=self.user, book=self.book).exists()
+        self.assertFalse(bookmark_exists)
+
+    def add_comment(self, comment_data, status_code=status.HTTP_201_CREATED):
+        url = f'/books/comment/{self.book.id}/'
+        response = self.client.post(url, data=comment_data)
+        
+        rating = response.data['rating'] if response.data['rating'] else ''
+        text = response.data['text'] if response.data['text'] else ''
+
+        self.assertEqual(response.status_code, status_code)        
+        self.assertEqual(text, comment_data['text'])
+        self.assertEqual(rating, comment_data['rating'])
+
+        if status_code == status.HTTP_201_CREATED or status_code == status.HTTP_200_OK:
+            bookmark_exists = Comment.objects.filter(user=self.user, book=self.book).exists()
+            self.assertTrue(bookmark_exists)
+
+    def test_add_comment(self):
+        """Test adding a comment to a book"""
+        self.add_comment({"text": "Great book!", "rating": 4})
+
+    def test_modify_comment(self):
+        """Ensure a user submit more than one comment just create at first time and after that just modify"""
+        self.add_comment({"text": "My first comment", "rating": 5}, status.HTTP_201_CREATED)
+        self.add_comment({"text": "Trying another comment", "rating": 3}, status.HTTP_200_OK)
+
+    def test_add_just_rate(self):
+        """Test adding a rate without text to a book"""
+        self.add_comment({"text": '', "rating": 2})
+
+    def test_add_just_text_comment(self):
+        """Test adding a text without rate to a book"""
+        self.add_comment({"text": 'Great book!', "rating": ''})
+
+    def test_remove_bookmark_if_submit_comment(self):
+        """add bookmark then submit comment for remove bookmark"""
+        self.test_bookmark_book()
+        self.test_add_comment()
+        url = f'/books/list/'
+        response = self.client.get(url)
+        self.assertEqual(response.data[0]['is_bookmarked'], False)
+
+    def test_cant_bookmark_when_have_comment(self):
+        """users cant bookmark when have comment on the book"""
+        self.test_add_comment()
+        url = f'/books/bookmark/{self.book.id}/'
+        response = self.client.post(url)
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['message'], 'You have Comment on this book')
+        

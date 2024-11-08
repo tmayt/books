@@ -4,7 +4,7 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.shortcuts import get_object_or_404
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from .serializers import BookSerializer, CommentSerializer
 from .models import Book, Bookmark, Comment
 
@@ -56,7 +56,7 @@ class BookmarkToggleView(APIView):
         }
     )
     def post(self, request, pk):
-        if not Comment.objects.filter(user=request.user, book=book).exists():
+        if not Comment.objects.filter(user=request.user, book__id=pk).exists():
             book = get_object_or_404(Book, id=pk)
             bookmark, created = Bookmark.objects.get_or_create(user=request.user, book=book)
             if created:
@@ -100,36 +100,37 @@ class SubmitCommentView(APIView):
         text = request.data.get('text')
         rating = request.data.get('rating')
 
-        if (text is None and rating is None):
+        if text == '' and rating == '':
             return Response(
                 {"error": "Either text or rating must be provided"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        if (int(rating) in range(1, 6)):
+        if rating and not int(rating) in range(1, 6):
             return Response(
                 {"error": "Rating must be a number between 1 and 5, or left blank"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            bookmark = Bookmark.objects.filter(user=request.user, book=book).first()
-            if bookmark:
-                bookmark.delete()                
-            # Attempt to create the comment
-            comment = Comment.objects.create(
-                user=request.user,
-                book=book,
-                text=text if text else None,
-                rating=rating if rating is not None else 0
-            )
+            with transaction.atomic():
+                bookmark = Bookmark.objects.filter(user=request.user, book=book).first()
+                if bookmark:
+                    bookmark.delete()
+                # Attempt to create the comment
+                comment = Comment.objects.create(
+                    user=request.user,
+                    book=book,
+                    text=text if text else None,
+                    rating=rating if rating else None
+                )
             created = True
         except IntegrityError:
             comment = Comment.objects.get(user=request.user, book=book)
             comment.text = text if text else None
-            comment.rating = rating if rating is not None else 0
+            comment.rating = rating if rating else 0
             comment.save()
             created = False
-        
+    
         serializer = CommentSerializer(comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
     

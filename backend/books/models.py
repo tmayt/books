@@ -28,8 +28,8 @@ class Bookmark(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     book = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
-    text = models.TextField()
-    rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=0)  # Rating from 1 to 5
+    text = models.TextField(null=True, blank=True)
+    rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)], null=True)  # Rating from 1 to 5
     submitted_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
