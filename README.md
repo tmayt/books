@@ -15,7 +15,7 @@ This project is a Django-based API for managing books, allowing users to view bo
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/tmayt/books.git
+   git clone [<your-repo-url>](https://github.com/tmayt/books.git)
    cd books
    ```
 
@@ -42,6 +42,10 @@ This project is a Django-based API for managing books, allowing users to view bo
 - **Username**: `admin`
 - **Password**: `admin`
 
+### Entity Relationship Diagram (ERD)
+
+![ERD](backend/ERD.png)
+
 ### Stopping the Project
 
 To stop the project, use the following command:
@@ -56,4 +60,3 @@ docker-compose down
 - All migrations and dependencies are handled within the Docker setup.
 
 Enjoy using the Book Management API!
-```
