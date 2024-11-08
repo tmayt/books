@@ -1,0 +1,178 @@
+[
+    {
+        "model": "books.book",
+        "pk": 1,
+        "fields": {
+            "title": "تائو ت چینگ",
+            "description": "«تائو ت چینگ» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/55828",
+            "published_date": "2017-05-06",
+            "cover_image": "covers/1.jpg",
+            "author": "لائوتزو"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 2,
+        "fields": {
+            "title": "من",
+            "description": "«من» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/4089",
+            "published_date": "2014-06-23",
+            "cover_image": "covers/2.jpg",
+            "author": "ملتامپسون"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 3,
+        "fields": {
+            "title": "۴۲ اندیشه ناب (تأمّلاتی درباره زندگی، جهان و هر آن چیزِ دیگر)",
+            "description": "«۴۲ اندیشه ناب (تأمّلاتی درباره زندگی، جهان و هر آن چیزِ دیگر)» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/23428",
+            "published_date": "2016-03-20",
+            "cover_image": "covers/3.jpg",
+            "author": "مارکورنون"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 4,
+        "fields": {
+            "title": "نظر به درد دیگران",
+            "description": "«نظر به درد دیگران» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/7342",
+            "published_date": "2016-01-21",
+            "cover_image": "covers/4.jpg",
+            "author": "سوزان سانتاگ"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 5,
+        "fields": {
+            "title": "مرگ",
+            "description": "«مرگ» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/3619",
+            "published_date": "2014-07-23",
+            "cover_image": "covers/5.jpg",
+            "author": "تادمی"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 6,
+        "fields": {
+            "title": "زن از نگاه ادیان",
+            "description": "«زن از نگاه ادیان» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/3768",
+            "published_date": "2004-08-22",
+            "cover_image": "covers/6.jpg",
+            "author": "علیفتحی‌لقمان"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 7,
+        "fields": {
+            "title": "درس‌های اسفار جلد ۱",
+            "description": "«درس‌های اسفار جلد ۱» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/4321",
+            "published_date": "2024-11-07",
+            "cover_image": "covers/7.jpg",
+            "author": "مرتضیمطهری"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 8,
+        "fields": {
+            "title": "کار",
+            "description": "«کار» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/4788",
+            "published_date": "2014-09-23",
+            "cover_image": "covers/8.jpg",
+            "author": "لارساسوندسن"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 9,
+        "fields": {
+            "title": "جمهور افلاطون",
+            "description": "«جمهور افلاطون» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/73814",
+            "published_date": "2019-04-28",
+            "cover_image": "covers/9.jpg",
+            "author": "انجیهابز"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 10,
+        "fields": {
+            "title": "تاریخ فلسفه از آغاز تا امروز",
+            "description": "«تاریخ فلسفه از آغاز تا امروز» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/69758",
+            "published_date": "2020-02-25",
+            "cover_image": "covers/10.jpg",
+            "author": "ویلیامساهاکیان"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 11,
+        "fields": {
+            "title": "جان دادن در راه ایده‌ها",
+            "description": "«جان دادن در راه ایده‌ها» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/77198",
+            "published_date": "2020-04-20",
+            "cover_image": "covers/11.jpg",
+            "author": "کاستیکابراداتان"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 12,
+        "fields": {
+            "title": "فهم فلسفه‌‫: اندیشه در روزگار باستان و دوره یونانی‌مابی",
+            "description": "«فهم فلسفه‌‫: اندیشه در روزگار باستان و دوره یونانی‌مابی» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/19603",
+            "published_date": "2014-04-21",
+            "cover_image": "covers/12.jpg",
+            "author": "جون. اپرایس"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 13,
+        "fields": {
+            "title": "عدد، نماد، اسطوره",
+            "description": "«عدد، نماد، اسطوره» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/9636",
+            "published_date": "2009-05-22",
+            "cover_image": "covers/13.jpg",
+            "author": "آرش نورآقایی"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 14,
+        "fields": {
+            "title": "بخشودن",
+            "description": "«بخشودن» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/3002",
+            "published_date": "2015-04-21",
+            "cover_image": "covers/14.jpg",
+            "author": "ایوگارارد"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 15,
+        "fields": {
+            "title": "مقالات فلسفی",
+            "description": "«مقالات فلسفی» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/7551",
+            "published_date": "1995-01-21",
+            "cover_image": "covers/15.jpg",
+            "author": "مرتضیمطهری"
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 16,
+        "fields": {
+            "title": "درس‌های اسفار جلد ۲",
+            "description": "«درس‌های اسفار جلد ۲» را از طاقچه دریافت کنید\nhttps://taaghche.com/book/4322",
+            "published_date": "2024-11-07",
+            "cover_image": "covers/16.jpg",
+            "author": "مرتضیمطهری"
+        }
+    }
+]

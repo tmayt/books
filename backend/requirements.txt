@@ -1,0 +1,12 @@
+django==4.2.15
+uwsgi==2.0.28
+python-decouple==3.8
+psycopg2-binary==2.9.9
+django-admin-interface==0.20.0
+djangorestframework
+djangorestframework-simplejwt
+drf-yasg
+# for ERD
+django-extensions
+pydotplus
+graphviz
